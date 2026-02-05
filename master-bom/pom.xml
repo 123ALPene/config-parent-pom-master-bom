@@ -7,34 +7,41 @@
 
 	<groupId>1a5ed58d-66ec-42cb-8016-271968d630c1</groupId>
 	<artifactId>master-bom</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 	<packaging>pom</packaging>
 
 	<name>master-bom</name>
 
 	<properties>
+		<type>custom</type>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<app.runtime>4.9.10</app.runtime>
+		<app.runtime>4.10.1</app.runtime>
 
 		<mule.maven.plugin.version>4.6.0</mule.maven.plugin.version>
 		<maven.resources.version>3.4.0</maven.resources.version>
 		<maven.clean.version>3.5.0</maven.clean.version>
+		<exchange.mule.maven.plugin.version>0.1.7</exchange.mule.maven.plugin.version>
 
 		<http.connector.version>1.11.1</http.connector.version>
 		<sockets.connector.version>1.2.7</sockets.connector.version>
 		<apikit.version>1.11.11</apikit.version>
 		<secure.properties.version>1.2.3</secure.properties.version>
+		<file.connector.version>1.5.5</file.connector.version>
 		<super.movies.version>1.0.0</super.movies.version>
 		<super.biodata.version>1.0.0</super.biodata.version>
+
 		<objectstore.connector.version>1.2.1</objectstore.connector.version>
 		<oauth.module.version>1.1.18</oauth.module.version>
+
 		<vm.module.version>2.0.0</vm.module.version>
 		<mq.version>3.1.6</mq.version>
+
 		<tracing.module.version>1.0.0</tracing.module.version>
 		<validation.verion>1.4.5</validation.verion>
 		<json.module.version>2.1.6</json.module.version>
+
 		<mongodb.connector.version>6.3.11</mongodb.connector.version>
 		<mongodb.driver.version>5.6.2</mongodb.driver.version>
 	</properties>
@@ -57,6 +64,11 @@
 					<artifactId>mule-maven-plugin</artifactId>
 					<version>${mule.maven.plugin.version}</version>
 					<extensions>true</extensions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>exchange-mule-maven-plugin</artifactId>
+					<version>${exchange.mule.maven.plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -143,15 +155,21 @@
 				<classifier>mule-plugin</classifier>
 			</dependency>
 			<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-mongodb-connector</artifactId>
-			<version>${mongodb.connector.version}</version>
+				<groupId>com.mulesoft.connectors</groupId>
+				<artifactId>mule-mongodb-connector</artifactId>
+				<version>${mongodb.connector.version}</version>
+				<classifier>mule-plugin</classifier>
+			</dependency>
+			<dependency>
+				<groupId>org.mongodb</groupId>
+				<artifactId>mongodb-driver-legacy</artifactId>
+				<version>${mongodb.driver.version}</version>
+			</dependency>
+				<dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-file-connector</artifactId>
+			<version>${file.connector.version}</version>
 			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongodb-driver-legacy</artifactId>
-			<version>${mongodb.driver.version}</version>
 		</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -189,5 +207,12 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
+	<distributionManagement>
+		<repository>
+			<id>anypoint-exchange-v3</id>
+			<name>Exchange Private Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/1a5ed58d-66ec-42cb-8016-271968d630c1/maven</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 </project>

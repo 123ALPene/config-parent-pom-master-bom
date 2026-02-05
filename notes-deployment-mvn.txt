@@ -1,0 +1,52 @@
+mvn clean package mule:deploy -DmuleDeploy
+mvn clean deploy -DmuleDeploy -Dcloudhub2.target=cloudhub-us-east-2 -Denv=dev -Dap.conn.app.client.id=1c7eb0d905504869be8770583002901a -Dap.conn.app.client.secret=F3Ee4Cf89e09418F917ad8dE931d27D0 -Dsecure.key=MULE_LEVEL2_SECURE_KEY -Dap.env.client_id=c977d61070234ae882a9df52cc54ebf6 -Dap.env.client_secret=7abB17A612f84183Ad927D2e59C04155 -Dapi.visualizer.layer=System
+
+
+mvn clean deploy -Dap.conn.app.client.id=1c7eb0d905504869be8770583002901a -Dap.conn.app.client.secret=F3Ee4Cf89e09418F917ad8dE931d27D0
+
+Si on deploye dans Exchange :  
+mvn clean deploy 
+OU 
+mvn clean package exchange-mule-maven-plugin:exchange-deploy
+ - il faut ajouter la plugin exchange-mule-maven-plugin dans le pom.xml
+ - il faut ajouter les credentials dans le settings.xml
+ - ajouter le server id dans le pom.xml : De meme que dans repository de BOM
+
+ 	<plugin>
+            <groupId>org.mule.tools.maven</groupId>
+            <artifactId>exchange-mule-maven-plugin</artifactId>
+            <version>0.1.7</version>
+            <inherited>false</inherited>
+            <executions>
+                <execution>
+                    <id>validate</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>exchange-pre-deploy</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>deploy</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>exchange-deploy</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+# Ajouter le type custom dans le BOM : <type>custom</type> dans la section properties du master-bom
+
+# S'il ya nouvelle dependance on l' ajoute dans le master-bom et on met à jour la version du master-bom dans le parent-pom
+# Ajouter la nouvelle version du master-bom dans le parent-pom et faire un clean install pour que les changements soient pris en compte
+# clean install -DskipTests pour installer le parent-pom dans le local repository
+# clean deploy -DskipTests pour deployer le parent-pom dans le remote repository
+# Ajouter aussi la dependance dans le projet (API) sans la balise version pour que la version soit prise de la BOM
+# Ajouter la nouvelle version du parent-pom dans le pom.xml de l'api et faire un clean install pour que les changements soient pris en compte
+
+Ressources :
+ https://www.curietech.ai/mulesoft-integration/mulesoft-maven-plugin 
+ - verifier les commandes MVN
+ - verifier les proprietés à passer dans les commandes MVN
+ - verifier les balises de deploiement dans le pom.xml de parent-pom
+
